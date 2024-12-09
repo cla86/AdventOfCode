@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from collections import defaultdict
 
-with open('input.txt', 'r') as f:
+with open('input.txt.mini', 'r') as f:
     data = f.read().strip()
 
 empty = None
@@ -29,7 +29,7 @@ for segment in disk:
                 disk.pop(r_index)
                 break
 
-print(sum([x[0] * i for i, x in enumerate(disk) if x != None]))
+print(sum([x * i for i, x in enumerate(disk) if x != None]))
     
 
         
