@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
+# https://adventofcode.com/2024/day/9
 
-with open('input.txt', 'r') as f:
+with open('input.txt.mini', 'r') as f:
     data = f.read().strip()
 
 empty = None
 
 disk = list()
 for fi, f in enumerate(data):
-    #print(fi, f)
     if int(f) != 0:
         if fi % 2 == 0:
             index = fi // 2
@@ -43,38 +43,42 @@ for fi, f in enumerate(data):
             for i in range(int(f)):
                 disk.append(empty)
 
-def find_trailing_elements(start):
-    last_value = None
-    trailing_elements = []
-    indexes = []
-    for i in range(start, -1, -1):
-        if lst[i] is None:
-            continue
-        if last_value is None:
-            last_value = lst[i]
-        if lst[i] == last_value:
-            trailing_elements.append(lst[i])
-            indexes.append(i)
-        else:
-            break
-    return trailing_elements, len(trailing_elements), indexes
-
-def find_nones(length):
-    count = 0
-    start_index = -1
-    for i in range(n):
-        if lst[i] is None:
-            if count == 0:
-                start_index = i
-            count += 1
-            if count == length:
-                return list(range(start_index, start_index + count))
-        else:
-            count = 0
-    return None
-
 def defragment_list(lst):
     n = len(lst)
+
+    def find_trailing_elements(start):
+        last_value = None
+        trailing_elements = []
+        indexes = []
+
+        for i in range(start, -1, -1):
+            if lst[i] is None:
+                continue
+            if last_value is None:
+                last_value = lst[i]
+            if lst[i] == last_value:
+                trailing_elements.append(lst[i])
+                indexes.append(i)
+            else:
+                break
+        return trailing_elements, len(trailing_elements), indexes
+
+
+    def find_nones(length):
+        count = 0
+        start_index = -1
+
+        for i in range(n):
+            if lst[i] is None:
+                if count == 0:
+                    start_index = i
+                count += 1
+                if count == length:
+                    return list(range(start_index, start_index + count))
+            else:
+                count = 0
+        return None
+
     current_end = n - 1
 
     while current_end >= 0:
