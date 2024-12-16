@@ -1,101 +1,50 @@
 #!/usr/bin/env python3
-
+#
 from collections import defaultdict
 
-
-class Stones:
-    def __init__(self, value):
-        self.value = value
-
-    def zero_to_hero(self):
-        self.value += 1
-        return self
-
-    def the_year_we_all_say_fuck_it(self):
-        self.value *= 2024
-        return self
-
-    def split_stone(self):
-        def removeLeadingZeros(num):
-            for i in range(len(num)):
-                if num[i] != '0':
-                    res = num[i::]
-                    return res
-            return "0"
-            
-        if len(str(self.value)) % 2 == 0:
-            half = len(str(self.value)) // 2
-            left, right = map(int, (str(self.value)[:half], 
-                                    removeLeadingZeros(str(self.value)[-half:])))
-            
-            return (Stones(left), Stones(right))
-        return self
-
-    def __repr__(self):
-        return str(self.value)
-
-class Blinking:
-    def __init__(self, numbers):
-        self.numbers = []
-        for num in numbers:
-            if isinstance(num, tuple):
-                self.numbers.extend(Stones(n) for n in num)
-            else:
-                self.numbers.append(Stones(num))
-
-    def zero_to_hero_all(self):
-        for num in self.numbers:
-            if num.value == 0:
-                num.zero_to_hero()
-        return self
-
-    def the_year_we_all_say_fuck_it(self):
-        for num in self.numbers:
-            num.the_year_we_all_say_fuck_it()
-        return self
-
-    def split_stones(self):
-        new_numbers = []
-        for num in self.numbers:
-            split_result = num.split_stone()
-            if isinstance(split_result, tuple):
-                new_numbers.extend(split_result)
-            else:
-                new_numbers.append(split_result)
-        self.numbers = new_numbers
-        return self
-    
-    def blink(self):
-        new_numbers = []
-        for num in self.numbers:
-            if num.value == 0:
-                new_numbers.append(num.zero_to_hero())
-            elif len(str(num.value)) % 2 == 0:
-                split_result = num.split_stone()
-                if isinstance(split_result, tuple):
-                    new_numbers.extend(split_result)
-                else:
-                    new_numbers.append(split_result)
-            else:
-                new_numbers.append(num.the_year_we_all_say_fuck_it())
-        self.numbers = new_numbers
-        return self.numbers
-
-    def __repr__(self):
-        return f"Blinking({self.numbers})"
-    
-    def __iter__(self):
-        for num in self.numbers:
-            yield num
-
 with open('input.txt', 'r') as f:
-    stones = list(map(int, f.read().split(' ')))
+    data = list(map(int, f.read().split(' ')))
+
+stones = defaultdict(int)
+for stone in data:
+    stones[stone] = 1
+
+def removeLeadingZeros(num):
+    for i in range(len(num)):
+        if num[i] != '0':
+            res = num[i::]
+            return res
+    return "0"
+
+number_of_blinks = 25
+
+def blink(part, number_of_blinks):
+    stones = defaultdict(int)
+    for stone in data:
+        stones[stone] = 1
+
+    for blink in range(1, number_of_blinks + 1):
+        blinking = defaultdict(int)
+        for stone, count in stones.items():
+            if stone == 0:
+                blinking[1] += count
+            elif len(str(stone)) % 2 == 0:
+                half = len(str(stone)) // 2
+                splited = (map(int, (str(stone)[:half],
+                                        removeLeadingZeros(str(stone)[-half:]))))
+                for k in splited:
+                    blinking[k] += count
+            else:
+                v = stone * 2024
+                blinking[v] += count
+            stones = blinking
+
+    print("Part", part + ":", sum(stones.values()))
+    #print("type(stones)", type(stones))
+    #print("len(stones.items())", len(stones.items()))
 
 # part 1
-plist = Blinking(stones)
-number_of_blinks=25
-for i in range(number_of_blinks):
-    plist.blink()
-    # print(i, len(list(plist)))
+blink("1", 25)
 
-print(len(list(plist)))
+# part 2
+blink("2", 75)
