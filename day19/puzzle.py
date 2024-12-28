@@ -5,19 +5,22 @@ with open("input.txt.mini") as f:
     available = t_available.split(", ")
     desired = t_desired.split("\n")
 
-def can_compose(pattern, available):
-    while pattern:
-        match_found = False
-        for element in sorted(available, key=len, reverse=True):
-            if pattern.startswith(element):
-                pattern = pattern[len(element):]
-                match_found = True
-                break
-        if not match_found:
-            return 0
-    return 1
+def valid_design(position, pattern, available):
+    if position == len(pattern):
+        return 1
+    
+    for design in available:
+        next_position = position + len(design)
+        if next_position <= len(pattern) and pattern[position:next_position] == design:
+            if valid_design(next_position, pattern, available):
+                return 1
+    return 0
+
 
 composable = []
 for pattern in desired:
-    composable.append(can_compose(pattern, available))
+    res = valid_design(0, pattern, available)
+    composable.append(res)
+
+# part 1
 print(sum(composable))
