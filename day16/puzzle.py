@@ -25,8 +25,7 @@ def solve(maze, start, stop):
         dx, dy = direction
         
         if (x, y) == stop:
-            print("Cost", cost, (x, y))
-            break
+            return cost
         
         if (x, y, dx, dy) in seen:
             continue
@@ -42,4 +41,4 @@ def solve(maze, start, stop):
         heapq.heappush(queue, (cost + 1000, (x, y), (rx, ry)))
 
 # part 1
-solve(maze, start, stop)
+print(solve(maze, start, stop))
