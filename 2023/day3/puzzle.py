@@ -20,11 +20,9 @@ directions = [
 pns = []
 total = 0
 for x, row in enumerate(grid):
-    neigbours = [] #set()
+    neigbours = []
     part_number = ''
-    #row.append('.')
     for y, char in enumerate(row):
-        #print(y, len(row))
         if char.isdigit():
             part_number += char
             for dx, dy in directions:
@@ -33,14 +31,11 @@ for x, row in enumerate(grid):
                     neigbours.append((nx, ny))
         else:
             for i, j in neigbours:
-                #print((x, y), i, j)
                 if grid[i][j] != '.' and not grid[i][j].isdigit():
                     pns.append(part_number)
                     total += int(part_number)
                     break
-            neigbours = [] #set()
+            neigbours = []
             part_number = ''
 
-#print(pns)
-#print(sum(list(map(int, pns))))
 print(total)
