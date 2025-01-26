@@ -2,7 +2,7 @@
 import re
 from functools import reduce
 
-with open('input.txt', 'r') as f:
+with open('input.txt.mini', 'r') as f:
     data = f.readlines()
 
 times = list(map(int, re.findall(r'\d+', data[0])))
@@ -28,6 +28,5 @@ def solve(races):
 print(reduce(lambda x, y: x * y, solve(races)))
 
 # part 2
-
 races = [(int(''.join(map(str, times))), int(''.join(map(str, distances))))]
 print(reduce(lambda x, y: x * y, solve(races)))
