@@ -15,7 +15,7 @@ while True:
     for direction in instructions:
         if direction == "L": start = nodes[start[0]]
         if direction == "R": start = nodes[start[1]]
-        #print(direction, start)
+
         i += 1
         if start == end:
             break
