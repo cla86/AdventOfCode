@@ -8,7 +8,6 @@ def joker(counter, cards):
     jokers = counter['J']
     del counter['J']
     if jokers == 0:
-        #print(counter.most_common())
         return classify(cards)
     if jokers == 5:
         return classify(cards.replace('J', 'A'))
