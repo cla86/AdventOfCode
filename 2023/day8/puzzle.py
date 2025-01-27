@@ -11,6 +11,7 @@ i = 0
 start = nodes['AAA']
 end = nodes['ZZZ']
 
+# part 1
 while True:
     for direction in instructions:
         if direction == "L": start = nodes[start[0]]
@@ -23,3 +24,26 @@ while True:
     if start == end:
         break
 print(i)
+
+# part 2
+import math
+
+starts = [x for x in nodes.keys() if x[-1] == 'A']
+ends = [x for x in nodes.keys() if x[-1] == 'Z']
+
+p = []
+for start in starts:
+    i = 0
+    while True:
+        for direction in instructions:
+            if direction == "L": start = nodes[start][0]
+            if direction == "R": start = nodes[start][1]
+
+            i += 1
+            if start in ends:
+                break
+        if start in ends:
+            break
+    p.append(i)
+
+print(math.lcm(*p))
