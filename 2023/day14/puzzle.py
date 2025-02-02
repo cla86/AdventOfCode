@@ -2,7 +2,6 @@
 
 with open('input.txt', 'r') as f:
     platform = [x.strip() for x in f.readlines()]
-    p = {}
 
 def tilt(platform):
     sum = 0
