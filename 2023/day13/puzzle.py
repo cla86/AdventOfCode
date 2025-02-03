@@ -37,4 +37,3 @@ for pattern in patterns:
     sum += res * 100
 
 print(sum)
-    #pattern = [list(x) for x in pattern.split('\n')
